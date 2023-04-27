@@ -13,17 +13,38 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('start', function () {
     return view('welcome');
-});
+})->name('homepage');
 
 
-Route::get('/chi-Siamo/Studenti', function(){
+Route::get('studenti', function(){
     return view('Studenti');
+})->name('chi-siamo-studenti');
 
-});
 
-Route::get('/corsi', function(){
-    return view('i-nostri-corsi');
+Route::get('servizi', function(){
+    $corsi = [
+        ['id' => 1, 'nome' => 'Full', 'insegnante' => 'Insegnante: Alessio'],
+        ['id' => 2, 'nome' => 'Front', 'insegnante' => 'Insegnante: Maria'],
+        ['id' => 3, 'nome' => 'Back', 'insegnante' => 'Insegnante: Giulia'],
+    ];
+    return view('i-nostri-corsi', ['corsi' => $corsi]);
+})->name('i-corsi');
 
-});
+
+route::get('i-nostri-corsi/dettaglio/{id}', function($id){
+    $corsi = [
+        ['id' => 1, 'nome' => 'Full', 'insegnante' => 'Insegnante: Alessio', 'lezione' => 'giovedì'],
+        ['id' => 2, 'nome' => 'Front', 'insegnante' => 'Insegnante: Maria', 'lezione' => 'martedì'],
+        ['id' => 3, 'nome' => 'Back', 'insegnante' => 'Insegnante: Giulia', 'lezione' => 'venerdì'],
+    ];
+
+    foreach($corsi as $corso){
+
+        if($id == $corso['id']){
+             return view('i-corsi-dettaglio', ['corso' => $corso]);
+        }
+    }
+
+})->name('dettaglio.corsi');
